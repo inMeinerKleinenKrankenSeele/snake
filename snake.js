@@ -4,7 +4,6 @@ const DELAY = 500;
 
 
 function init() {
-    
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
 
@@ -32,13 +31,22 @@ var snake= [];
 var head = [];
 var previousTail;
 var sizeOfCell = 20;
+var appleExists = false;
 //step=20?
-
+//160 x 90
 function gameCycle(){
     
     moveSnake();
+
+    checkSnake();
+
     drawSnake();
+    locateApple();
     drawGrid();
+}
+
+function checkSnake(){
+    //todo: check coord and increment snake
 }
 
 function moveSnake(){
@@ -80,31 +88,63 @@ function createSnake(){
 }
 
 function drawSnake(){
-    ctx.fillStyle="#FFFFFF"
+    ctx.fillStyle="#FFFFFF";
    // alert(snake[0,0])
-    ctx.fillRect(snake[0][0]*sizeOfCell,snake[0][1]*sizeOfCell,sizeOfCell,sizeOfCell)
+    ctx.fillRect(snake[0][0]*sizeOfCell,snake[0][1]*sizeOfCell,sizeOfCell,sizeOfCell);
 
     for(var i=1; i<snake.length;i++)
     {
-        ctx.fillStyle="#999999"
-        ctx.fillRect(snake[i][0]*sizeOfCell,snake[i][1]*sizeOfCell,sizeOfCell,sizeOfCell)
+        ctx.fillStyle="#999999";
+        ctx.fillRect(snake[i][0]*sizeOfCell,snake[i][1]*sizeOfCell,sizeOfCell,sizeOfCell);
      //  ctx.fillRect(snake[0][i]*sizeOfCell,snake[i][0]*sizeOfCell,sizeOfCell,sizeOfCell)
     }
    
     ctx.fillStyle="#000000";
-    if(previousTail != undefined) ctx.fillRect(previousTail[0]*sizeOfCell,previousTail[1]*sizeOfCell,sizeOfCell,sizeOfCell)
+    if (previousTail != undefined) ctx.fillRect(previousTail[0] * sizeOfCell, previousTail[1] * sizeOfCell, sizeOfCell, sizeOfCell)
 }
 
-function locateApple(){
-
+function locateApple() {
+    if (!appleExists) {
+        var newApple = getNewAppleCoordinates();
+        drawApple(newApple);
+    }
+    appleExists = true;
 }
+
+function drawApple(point){
+    ctx.fillStyle="#00FF00";
+    ctx.fillRect(point[0]*sizeOfCell,point[1]*sizeOfCell,sizeOfCell,sizeOfCell);
+}
+
+function getNewAppleCoordinates(){
+    var located = false;
+    while (!located) {
+        var xApple = randomInteger(0, 80);
+        var yApple = randomInteger(0, 45);
+
+        for(var i=0;i< snake.length;i++){
+            if(xApple==snake[i][0] && YApple==snake[i][1]){
+                break;
+            }
+            located=true; 
+        }
+    }
+    return [xApple,yApple];
+}
+
+
+function randomInteger(min, max) {
+    var rand = min - 0.5 + Math.random() * (max - min + 1)
+    rand = Math.round(rand);
+    return rand;
+  }
 
 function drawGrid(){
     ctx.fillStyle="#505050";
     for(var i=0;i<160;i++){
         for(var j=0;j<160;j++){
             ctx.fillRect(i*sizeOfCell,j*sizeOfCell, 1,canvas.height);
-            ctx.fillRect(i*sizeOfCell,j*sizeOfCell, canvas.width,1)
+            ctx.fillRect(i*sizeOfCell,j*sizeOfCell, canvas.width,1);
         }
     }
 }
