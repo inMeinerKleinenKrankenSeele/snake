@@ -1,0 +1,75 @@
+/* .score {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 5px;
+    text-align: right;
+  }
+
+canvas {
+    background: black
+}
+
+.text {
+    text-align: right;
+} */
+.score {
+    color: rgba(14, 13, 13, 0.5);
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+    position: absolute;
+    right: 100px;
+    top: 15px;
+}
+
+canvas {
+    background: black
+}
+
+.btn {
+    margin: 25px auto;
+    position: relative;
+    font-size: 20px;
+    color: #fff;
+    background-color: #e74c3c;
+    padding: 20px;
+    width: 100px;
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.btn.left:after {
+    left: 0;
+}
+
+.btn.bubble:after {
+    content: "";
+    background: #fff;
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+    margin: auto;
+    border-radius: 50%;
+    transform: scale(1);
+    transition: all 0.75s ease-in-out;
+}
+
+.btn.bubble:active:after {
+    transform: scale(0);
+    opacity: 1;
+    transition: 0s;
+}
+
+.btn.right{
+    position:absolute;
+    right: 30px;
+    top: 30px;
+}

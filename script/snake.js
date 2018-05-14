@@ -2,19 +2,37 @@ var ctx;
 var canvas;
 const DELAY = 200;
 
+var intervalID;
 
 function init() {
+
+    isAlive=false;
     canvas = document.getElementById('myCanvas');
     ctx = canvas.getContext('2d');
+    resetAll();
 
     createSnake();
     locateApple();
-
     drawSnake();
-
     drawGrid();
 
-    setInterval("gameCycle()", DELAY);
+    isAlive=true;
+    intervalID = setInterval("gameCycle()", DELAY);
+}
+
+function resetAll(){
+    clearInterval(intervalID);
+    if(apple != undefined)   removeApple();
+    if(snake != undefined)   removeSnake();
+    currentDirection = "down";
+    points = 0;
+    document.getElementsByClassName('score')[0].innerHTML ="Score: " + points;
+    snake = [];
+    head = [];
+    apple=null;
+    appleExists = false;
+    previousTail=null;
+   // isAlive = true;
 }
 
 const LEFT_KEY = 37;
@@ -29,7 +47,7 @@ var previousTail;
 var sizeOfCell = 20;
 var apple;
 var appleExists = false;
-
+var points = 0;
 var isAlive = true;
 //step=20?
 //160 x 90
@@ -43,6 +61,9 @@ function gameCycle() {
         drawSnake();
         locateApple();
         drawGrid();
+    }
+    else{
+        return;
     }
 }
 
@@ -59,10 +80,24 @@ function checkSnake() {
     }
 }
 
+function removeApple(){
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(apple[0] * sizeOfCell, apple[1] * sizeOfCell, sizeOfCell, sizeOfCell);
+}
+
+function removeSnake(){
+    ctx.fillStyle = "#000000";
+    snake.forEach(element => {
+        ctx.fillRect(element[0] * sizeOfCell, element[1] * sizeOfCell, sizeOfCell, sizeOfCell);   
+    });
+}
+
 function feedSnake() {
     var currTail = snake.pop();
     var newTail = [currTail[0], currTail[1]];
     snake.push(currTail, newTail);
+    points++;
+    document.getElementsByClassName('score')[0].innerHTML ="Score: " + points;
 }
 
 function moveSnake() {
